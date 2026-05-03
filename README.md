@@ -1,7 +1,7 @@
 <div align="center">
-  <img src="https://img.icons8.com/fluency/144/bank.png" width="100" />
-  <h1>🏦 CoreBank Panel PRO</h1>
-  <p><strong>The Ultimate Transaction Monitoring & Banking Automation Suite</strong></p>
+  <img src="https://play-lh.googleusercontent.com/M9OvPTmGRRtq40m0WtVRC7v5Rc4bNxj_IliowQSOm-oi2bLmnxsQcgqO-6ajUIQ2f-U" width="100" />
+  <h1>MBPanel</h1>
+  <p><strong>Dashboard quản lý tài chính MBBank, ngay trên Render.</strong></p>
   
   <p>
     <img src="https://img.shields.io/badge/Version-2.0.0--PRO-blue?style=for-the-badge" />
@@ -18,38 +18,39 @@
 
 ---
 
-## ✨ Hệ Thống Quản Trị Ngân Hàng Đẳng Cấp
+## ✨ Về MBPanel
 
-**CoreBank Panel PRO** không chỉ là một công cụ giám sát, mà là một trải nghiệm quản trị ngân hàng hiện đại. Được thiết kế với triết lý **Rich Aesthetics**, ứng dụng mang đến giao diện **Glassmorphism** sang trọng, phông chữ **Inter** sắc nét và các hiệu ứng chuyển động mượt mà.
+**MBPanel** là một bản fork của [danieldev23/corebank-panel](https://github.com/danieldev23/corebank-panel). Thay vì tự host và chạy bằng Docker/Node.js thì ta có thể deploy lên Render để dùng thông qua One-Click Render Deploy, chưa mất tới 5 phút.
 
-Dưới lớp vỏ hào nhoáng là một cỗ máy mạnh mẽ, sử dụng **AI OCR (ONNX)** để giải mã captcha và **WASM Engine** để mã hóa bảo mật, giúp bạn làm chủ mọi giao dịch mà không cần thông qua bất kỳ bên thứ ba nào.
+Webapp sử dụng **AI OCR (ONNX)** để giải mã captcha và **WASM Engine** để mã hóa bảo mật, giúp bạn quản lý giao dịch một cách an toàn. Các lưu trữ API được lấy từ https://online.mbbank.com.vn.
 
 ---
 
-## 💎 Tính Năng Thượng Lưu
+## 💎 Các tính năng
 
 | Tính năng | Chi tiết kỹ thuật |
 |-----------|------------------|
-| 🔐 **Smart Auth** | Tự động đăng nhập, tự động giải captcha bằng trí tuệ nhân tạo (ONNX model). Không cần can thiệp thủ công. |
-| 📊 **Dynamic Dashboard** | Theo dõi số dư tổng và từng tài khoản với biểu đồ và số liệu trực quan, cập nhật thời gian thực. |
-| 🔔 **Omni-Notifications** | Hệ thống đẩy thông báo tức thì qua **Telegram**, **Discord Webhook** và **Custom API Webhook**. |
-| 🛡️ **Military Encryption** | Sử dụng chính module **WASM** của ngân hàng để thực hiện mã hóa chữ ký số, đảm bảo an toàn tuyệt đối. |
-| 🎨 **Pro Aesthetics** | Giao diện hỗ trợ **Dark/Light Mode**, thiết kế theo phong cách kỉ nguyên mới với hiệu ứng kính mờ và gradient. |
+| 🔐 **Auto Resolve** | Tự động giải captcha bằng tool OCR AI (ONNX model) |
+| 📊 **Dynamic Dashboard** | Theo dõi số dư tổng và từng tài khoản với biểu đồ và số liệu trực quan. |
+| 🔔 ***Instant Notifications** | Hệ thống đẩy thông báo *tức thì qua **Telegram**, **Discord Webhook** và **Custom API Webhook**. |
+| 🛡️ **Safe Encryption** | Sử dụng chính module **Go WASM** của ngân hàng để thực hiện mã hóa chữ ký số bằng cơ chế `dataEnc`. |
+| 🎨 **Pro Aesthetics** | Giao diện hỗ trợ **Dark/Light Mode**, thiết kế trực quan qua Vue 3 UI và a ngôn ngữ. |
 
 ---
 
-## 🚀 Hướng Dẫn Triển Khai Siêu Tốc
-
-### 1. Triển Khai Lên Render (Ưu tiên)
+## 🚀 Hướng dẫn deploy
+### 1. Deploy  Render (Ưu tiên)
 Đây là cách nhanh nhất để đưa hệ thống vào hoạt động:
-1. Nhấn nút **Deploy to Render** ở phía trên.
+1. Nhấn nút **Deploy to Render** ở phía dưới.
+<br><a href="https://render.com/deploy?repo=https://github.com/Astear17/MBTool-Vercel"><img src="https://render.com/images/deploy-to-render-button.svg" height="40" alt="Deploy to Render" /></a>
 2. Hệ thống sẽ tự động nhận diện file `render.yaml` và cài đặt toàn bộ môi trường.
 3. Chờ trạng thái chuyển sang **Live** và tận hưởng kết quả.
+> Nếu bạn muốn đổi subdomain `*.onrender.com`, hãy clone hoặc fork về rồi đổi `name: corebank-panel-pro` thành subdomain bạn muốn
 
-> 💡 **Gợi ý**: Với gói Free của Render, server sẽ "ngủ" sau 15p không dùng. Hệ thống của chúng tôi đã tích hợp sẵn màn hình **Splash Screen** để chờ server khởi động lại tự động khi bạn truy cập.
+> *Instant Notifications chỉ hoạt động nếu bạn host locally bằng Docker/sử dụng gói đăng ký Render hoạt động 24/7
 
-### 2. Triển Khai Docker (Dành cho VPS)
-Dành cho người dùng muốn sự ổn định tuyệt đối 24/7 trên máy chủ riêng:
+### 2. Host bằng Docker (Dành cho VPS)
+Dành cho người dùng muốn sự ổn định tuyệt đối 24/7 trên máy chủ riêng (nhớ cài sẵn Docker):
 ```bash
 git clone https://github.com/Astear17/MBTool-Vercel.git
 cd MBTool-Vercel
@@ -58,16 +59,16 @@ docker-compose up -d --build
 
 ---
 
-## 📖 Hướng Dẫn Sử Dụng Chuyên Nghiệp
+## 📖 Guides
 
-### Đăng Nhập Hệ Thống
-- Sử dụng số điện thoại và mật khẩu Internet Banking của bạn.
+### Đăng nhập
+- Sử dụng số điện thoại và mật khẩu tài khoản của bạn.
 - Hệ thống sẽ tự động thực hiện các bước: *Lấy Captcha -> Giải mã AI -> Mã hóa WASM -> Đăng nhập*.
 - Nếu captcha sai, hệ thống tự động thử lại tối đa 5 lần.
 
 ### Cấu Hình Giám Sát (Monitor)
 - Vào mục **Cài đặt** để bật tính năng Monitor.
-- Thiết lập **Telegram Bot Token** và **Chat ID** để nhận thông báo biến động số dư ngay trên điện thoại.
+- Thiết lập **Telegram Bot Token** và **Chat ID** hoặc **Discord**, **Custom Webhook** để nhận thông báo biến động số dư ngay trên điện thoại.
 - Tùy chỉnh thời gian giãn cách (Interval) để tối ưu hóa hiệu suất.
 
 ### Tài Liệu API
@@ -102,6 +103,4 @@ docker-compose up -d --build
 Dự án được phát triển cho mục đích nghiên cứu học thuật và học tập cá nhân. Người sử dụng hoàn toàn chịu trách nhiệm về hành vi sử dụng của mình đối với quy định của Ngân hàng và Pháp luật.
 
 ---
-<div align="center">
-  <p>Giao diện được tinh chỉnh với ❤️ bởi <strong>Antigravity AI</strong></p>
-</div>
+
