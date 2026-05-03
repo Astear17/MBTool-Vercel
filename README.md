@@ -8,7 +8,7 @@
     <img src="https://img.shields.io/badge/Docker-Ready-2496ED" alt="Docker" />
   </p>
   <p>
-    [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/clone?repository-url=https%3A%2F%2Fgithub.com%2Fdanieldev23%2Fcorebank-panel&env=PORT,VITE_PORT&buildCommand=vite+build&framework=vite)
+    [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/clone?repository-url=https%3A%2F%2Fgithub.com%2FAstear17%2FMBTool-Vercel&env=PORT,VITE_PORT&buildCommand=vite+build&framework=vite)
   </p>
 </div>
 
