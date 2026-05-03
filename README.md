@@ -8,7 +8,9 @@
     <img src="https://img.shields.io/badge/Docker-Ready-2496ED" alt="Docker" />
   </p>
   <p>
-    [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/clone?repository-url=https%3A%2F%2Fgithub.com%2FAstear17%2FMBTool-Vercel&env=PORT,VITE_PORT&buildCommand=vite+build&framework=vite)
+    <a href="https://vercel.com/new/git/clone?repository-url=https%3A%2F%2Fgithub.com%2FAstear17%2FMBTool-Vercel&env=PORT,VITE_PORT&buildCommand=vite+build&framework=vite">
+      <img src="https://vercel.com/button" alt="Deploy with Vercel" />
+    </a>
   </p>
 </div>
 
@@ -17,6 +19,8 @@
 **CoreBank Panel PRO** là một hệ thống tự động hoá và giám sát giao dịch ngân hàng mạnh mẽ. Được xây dựng lại hoàn toàn bằng TypeScript, hệ thống không phụ thuộc vào trình duyệt ẩn danh (Puppeteer) nặng nề mà kết nối trực tiếp vào luồng API của ứng dụng Core Bank thông qua WebAssembly (WASM) và mô hình học máy OCR cục bộ.
 
 > 🛠 **Developed by Dang Quoc Huy with ❤️**
+> 
+> *This is a fork of [danieldev23/corebank-panel](https://github.com/danieldev23/corebank-panel).*
 
 ---
 
