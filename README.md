@@ -66,30 +66,20 @@ The fastest way to get started — no server setup required.
 
 ---
 
-### Option 2: Docker (Best for VPS / Self-Hosted)
+### Option 2: Hybrid Deployment (Recommended)
 
-The most reliable option for 24/7 operation with persistent data.
+Deploy the **Frontend to Vercel** (for speed) and the **Backend to Render** (for persistence).
 
-**Step 1:** Clone the repository:
-```bash
-git clone https://github.com/Astear17/MBTool-Vercel.git
-cd MBTool-Vercel
-```
+#### 1. Backend (Render)
+Click the **Deploy to Render** button above. Once deployed, copy your Render URL (e.g., `https://your-app.onrender.com`).
 
-**Step 2:** Create `.env` file (optional, to change ports):
-```env
-PORT=2001
-VITE_PORT=2000
-```
-
-**Step 3:** Build and run:
-```bash
-docker-compose up -d --build
-```
-
-**Step 4:** Open `http://localhost:2001` in your browser. 🎉
-
-> Settings (Telegram/Discord tokens) are persisted in `server/data/` via Docker volumes.
+#### 2. Frontend (Vercel)
+1. Fork this repo to your GitHub.
+2. Go to [Vercel](https://vercel.com/new).
+3. Import your fork.
+4. In **Environment Variables**, add:
+   - `VITE_API_BASE_URL`: `https://your-app.onrender.com/api` (Replace with your actual Render URL).
+5. Deploy.
 
 ---
 
