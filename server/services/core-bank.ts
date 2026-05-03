@@ -14,7 +14,46 @@ const BASE_URL = "https://online.mbbank.com.vn";
 
 const DEFAULT_HEADERS: Record<string, string> = {
   "Cache-Control": "max-age=0",
-  Accept: "application/json, text/plain, *
+  Accept: "application/json, text/plain, */*",
+  Authorization: "Basic RU1CUkVUQUlMV0VCOlNEMjM0ZGZnMzQlI0BGR0AzNHNmc2RmNDU4NDNm",
+  "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36",
+  Origin: BASE_URL,
+  Referer: `${BASE_URL}/pl/login?returnUrl=%2F`,
+  "Content-Type": "application/json; charset=UTF-8",
+  app: "MB_WEB",
+  "elastic-apm-traceparent": "00-55b950e3fcabc785fa6db4d7deb5ef73-8dbd60b04eda2f34-01",
+  "Sec-Ch-Ua": '"Not.A/Brand";v="8", "Chromium";v="134", "Google Chrome";v="134"',
+  "Sec-Ch-Ua-Mobile": "?0",
+  "Sec-Ch-Ua-Platform": '"Windows"',
+  "Sec-Fetch-Dest": "empty",
+  "Sec-Fetch-Mode": "cors",
+  "Sec-Fetch-Site": "same-origin",
+};
+
+const FPR = "c7a1beebb9400375bb187daa33de9659";
+
+function timestamp(): string {
+  const now = new Date();
+  const pad = (n: number, len = 2) => String(n).padStart(len, "0");
+  return (
+    `${now.getFullYear()}${pad(now.getMonth() + 1)}${pad(now.getDate())}` +
+    `${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}` +
+    `${String(now.getMilliseconds()).slice(0, 2)}`
+  );
+}
+
+function generateDeviceId(): string {
+  return `s1rmi184-mbib-0000-0000-${timestamp()}`;
+}
+
+function md5(input: string): string {
+  return createHash("md5").update(input).digest("hex");
+}
+
+export class CoreBankService {
+  private client = new Client(BASE_URL);
+  private session: SessionState | null = null;
+
   getSession(): SessionState | null {
     return this.session;
   }
@@ -209,8 +248,8 @@ const DEFAULT_HEADERS: Record<string, string> = {
 
   async getTransactions(
     accountNumber: string,
-    fromDate: string, 
-    toDate: string 
+    fromDate: string,
+    toDate: string
   ): Promise<Transaction[]> {
     const data = await this.authenticatedRequest(
       "/api/retail-transactionms/transactionms/get-account-transaction-history",
@@ -271,7 +310,6 @@ const DEFAULT_HEADERS: Record<string, string> = {
     try {
       data = JSON.parse(responseText);
     } catch (e) {
-      
       if (retryCount < 1) {
         console.log(`⚠️ Empty response from bank on ${path}, retrying...`);
         await new Promise(r => setTimeout(r, 1000));
@@ -285,7 +323,6 @@ const DEFAULT_HEADERS: Record<string, string> = {
     if (data.result.ok) return data;
 
     if (data.result.responseCode === "GW200") {
-      
       this.session = null;
       throw new Error("Session expired, please login again");
     }
