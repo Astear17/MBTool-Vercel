@@ -97,7 +97,13 @@ export class CoreBankService {
       }),
     });
 
-    const data = (await res.body.json()) as CaptchaResponse;
+    const responseText = await res.body.text();
+    let data: any;
+    try {
+      data = JSON.parse(responseText);
+    } catch (e) {
+      throw new Error(`Failed to parse Core Bank response: ${responseText.slice(0, 100)}`);
+    }
 
     // Store deviceId for the upcoming login
     this.session = {
@@ -195,7 +201,13 @@ export class CoreBankService {
       body: JSON.stringify({ dataEnc }),
     });
 
-    const body = (await res.body.json()) as any;
+    const responseText = await res.body.text();
+    let body: any;
+    try {
+      body = JSON.parse(responseText);
+    } catch (e) {
+      throw new Error(`Failed to parse login response: ${responseText.slice(0, 100)}`);
+    }
 
     if (!body.result) {
       return { success: false, message: "Unknown error: no result in response" };
@@ -325,7 +337,13 @@ export class CoreBankService {
       body: JSON.stringify(body),
     });
 
-    const data = (await res.body.json()) as any;
+    const responseText = await res.body.text();
+    let data: any;
+    try {
+      data = JSON.parse(responseText);
+    } catch (e) {
+      throw new Error(`Failed to parse API response: ${responseText.slice(0, 100)}`);
+    }
 
     if (!data?.result) return null;
 

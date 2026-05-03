@@ -8,13 +8,8 @@
     <img src="https://img.shields.io/badge/Docker-Ready-2496ED" alt="Docker" />
   </p>
   <p>
-    <!-- Render Button (Backend) -->
     <a href="https://render.com/deploy?repo=https://github.com/Astear17/MBTool-Vercel">
-      <img src="https://render.com/images/deploy-to-render-button.svg" alt="Deploy Backend to Render" />
-    </a>
-    <!-- Vercel Button (Frontend) -->
-    <a href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FAstear17%2FMBTool-Vercel&env=VITE_API_BASE_URL">
-      <img src="https://vercel.com/button" alt="Deploy Frontend to Vercel" />
+      <img src="https://render.com/images/deploy-to-render-button.svg" alt="Deploy to Render" />
     </a>
   </p>
 </div>
@@ -43,24 +38,24 @@
 
 ---
 
-## 🚀 Hướng dẫn Triển khai (Hybrid Deployment)
+## 🚀 Hướng dẫn Triển khai
 
-Để đạt hiệu suất và độ ổn định cao nhất, chúng tôi khuyến khích mô hình **Hybrid**:
-- **Backend chạy trên Render**: Đảm bảo duy trì Session, chạy các tác vụ nền (Monitor) và mã hoá WASM ổn định.
-- **Frontend chạy trên Vercel**: Tốc độ tải trang cực nhanh nhờ mạng lưới Edge Network toàn cầu.
-
-### Bước 1: Triển khai Backend (Render)
+### 1. Triển khai lên Render (Nhanh nhất)
 
 1. Nhấn nút **Deploy to Render** ở trên.
 2. Render sẽ tự động cấu hình dựa trên file `render.yaml`.
-3. Sau khi triển khai xong, hãy copy URL của service (ví dụ: `https://your-backend.onrender.com`).
+3. Sau khi trạng thái chuyển sang **Live**, bạn có thể truy cập web ngay lập tức.
 
-### Bước 2: Triển khai Frontend (Vercel)
+> **💡 Lưu ý:** Render gói miễn phí sẽ tự tắt sau một thời gian không có người dùng. Lần truy cập đầu tiên sau khi server tắt sẽ mất khoảng 30-60 giây để khởi động lại.
 
-1. Nhấn nút **Deploy to Vercel** ở trên.
-2. Vercel sẽ yêu cầu bạn nhập biến môi trường:
-   - `VITE_API_BASE_URL`: Nhập URL backend Render của bạn kèm `/api` (ví dụ: `https://your-backend.onrender.com/api`).
-3. Nhấn **Deploy** và chờ đợi trong giây lát.
+### 2. Triển khai bằng Docker (Khuyên dùng cho VPS)
+
+Dành cho các bạn muốn chạy 24/7 ổn định nhất:
+```bash
+git clone https://github.com/Astear17/MBTool-Vercel.git
+cd MBTool-Vercel
+docker-compose up -d --build
+```
 
 ---
 
@@ -76,26 +71,17 @@ corebank-panel-pro/
 │   │   ├── wasm-engine.ts     # Cầu nối mã hoá Go WASM
 │   │   └── monitor.ts         # Theo dõi giao dịch ngầm
 ├── src/                       # Mã nguồn Frontend Vue.js
-│   ├── views/                 # Các màn hình chức năng (Dashboard, Settings, ...)
-│   └── locales/               # Cấu hình đa ngôn ngữ
 ├── render.yaml                # Cấu hình triển khai Render
-└── vercel.json                # Cấu hình triển khai Vercel
+└── Dockerfile                 # Docker build
 ```
 
 ---
 
 ## 📖 Hướng dẫn Sử dụng
 
-### 1. Đăng nhập
-- Nhập **Số điện thoại** và **Mật khẩu** tài khoản ngân hàng của bạn.
-- Hệ thống sẽ tự động lấy captcha, giải mã bằng AI và thực hiện đăng nhập.
-- Nếu giải captcha sai, hệ thống sẽ tự động thử lại tối đa 5 lần.
-
-### 2. Cấu hình Thông báo
-Vào phần **Cài đặt** (Settings) để bật thông báo:
-- **Telegram**: Nhập Bot Token và Chat ID.
-- **Discord**: Nhập Webhook URL.
-- **Monitor**: Bật chế độ chạy ngầm và tùy chỉnh thời gian giãn cách (giây).
+1. **Đăng nhập**: Nhập Số điện thoại và Mật khẩu ngân hàng. Hệ thống tự giải captcha và đăng nhập.
+2. **Cấu hình Thông báo**: Vào phần Cài đặt để thiết lập Token Telegram hoặc Webhook Discord.
+3. **Giám sát**: Bật chế độ Monitor để nhận thông báo biến động số dư tức thì.
 
 ---
 
@@ -105,7 +91,6 @@ Vào phần **Cài đặt** (Settings) để bật thông báo:
 Dự án được phát hành dưới giấy phép **MIT License**. Bạn có quyền sử dụng, sao chép và sửa đổi mã nguồn.
 
 ### Miễn trừ Trách nhiệm
-**CoreBank Panel PRO** được phát triển hoàn toàn vì **mục đích giáo dục, nghiên cứu thuật toán và học hỏi cá nhân**.
-Tác giả (**Dang Quoc Huy**) và người duy trì (**Astear17**) **KHÔNG CHỊU BẤT KỲ TRÁCH NHIỆM PHÁP LÝ NÀO** đối với bất kỳ rủi ro hoặc hậu quả nào phát sinh từ việc sử dụng công cụ này vi phạm điều khoản dịch vụ của ngân hàng hoặc pháp luật hiện hành. Người dùng tự chịu trách nhiệm về hành vi của mình.
+Dự án được phát triển hoàn toàn vì **mục đích giáo dục và nghiên cứu**. Tác giả không chịu bất kỳ trách nhiệm nào đối với việc sử dụng công cụ này vi phạm điều khoản của ngân hàng hoặc pháp luật.
 
-> 🌟 *Phát triển bởi Dang Quoc Huy — Rebuilt bởi Astear17 cho nền tảng đám mây.*
+> 🌟 *Phát triển bởi Dang Quoc Huy — Rebuilt bởi Astear17.*
