@@ -7,7 +7,6 @@
       </el-button>
     </div>
 
-    <!-- Total Balance Card -->
     <div class="balance-hero glass">
       <div class="balance-label">{{ $t('dashboard.totalBalance') }}</div>
       <div class="balance-amount">
@@ -17,7 +16,6 @@
       <div class="balance-currency">{{ balance?.currencyEquivalent || "VND" }}</div>
     </div>
 
-    <!-- Account Cards Grid -->
     <div class="section-header">
       <h2>Accounts</h2>
       <el-tag type="info" effect="dark" round>{{ accounts.length }} {{ $t('dashboard.accounts') }}</el-tag>
@@ -141,8 +139,6 @@ onMounted(fetchBalance);
   letter-spacing: -0.04em;
 }
 
-/* ─── Hero Balance ─────────────────────────── */
-
 .balance-hero {
   padding: 48px;
   border-radius: 24px;
@@ -209,8 +205,6 @@ onMounted(fetchBalance);
   z-index: 1;
 }
 
-/* ─── Section Header ───────────────────────── */
-
 .section-header {
   display: flex;
   align-items: center;
@@ -223,8 +217,6 @@ onMounted(fetchBalance);
   font-weight: 800;
   letter-spacing: -0.02em;
 }
-
-/* ─── Account Cards ────────────────────────── */
 
 .accounts-grid {
   display: grid;

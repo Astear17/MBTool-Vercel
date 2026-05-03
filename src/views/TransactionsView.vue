@@ -5,7 +5,7 @@
     </div>
 
     <div class="top-row">
-      <!-- Filters -->
+      
       <el-card class="filter-card">
         <div class="filters">
           <div class="filter-item">
@@ -54,7 +54,6 @@
         </div>
       </el-card>
 
-      <!-- VietQR -->
       <el-card class="qr-card" v-if="filters.accountNumber" :body-style="{ padding: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center' }">
         <div class="qr-container">
           <img 
@@ -71,7 +70,7 @@
     </div>
 
     <template v-else-if="transactions.length">
-      <!-- Summary -->
+      
       <div class="summary-row">
         <div class="summary-item glass">
           <span class="summary-label">{{ $t('transactions.totalTx') }}</span>
@@ -87,7 +86,6 @@
         </div>
       </div>
 
-      <!-- Charts -->
       <div class="charts-row">
         <el-card class="chart-card">
           <template #header>
@@ -104,7 +102,6 @@
         </el-card>
       </div>
 
-      <!-- Table -->
       <el-card class="table-card">
         <template #header>
           <div class="chart-header">{{ $t('transactions.txHistory') }}</div>
@@ -159,7 +156,6 @@ import { Search } from "@element-plus/icons-vue";
 import { ElMessage } from "element-plus";
 import api from "../api";
 
-// ECharts
 import { use } from "echarts/core";
 import { CanvasRenderer } from "echarts/renderers";
 import { PieChart, BarChart } from "echarts/charts";
@@ -181,8 +177,6 @@ use([
   GridComponent,
 ]);
 
-// ─── Interfaces & State ─────────────────────────────────────────────────
-
 interface Transaction {
   postDate: string;
   transactionDate: string;
@@ -203,7 +197,6 @@ const loading = ref(false);
 const searched = ref(false);
 const transactions = ref<Transaction[]>([]);
 
-// Default dates
 const now = new Date();
 const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
 const pad = (n: number) => String(n).padStart(2, "0");
@@ -215,8 +208,6 @@ const filters = reactive({
   fromDate: formatDate(thirtyDaysAgo),
   toDate: formatDate(now),
 });
-
-// ─── Computed Stats ─────────────────────────────────────────────────────
 
 const formatMoney = (val: number | string): string => {
   const n = typeof val === "string" ? parseFloat(val) : val;
@@ -231,8 +222,6 @@ const totalCredit = computed(() =>
 const totalDebit = computed(() =>
   transactions.value.reduce((sum, t) => sum + (Number(t.debitAmount) || 0), 0)
 );
-
-// ─── Charts Options ───────────────────────────────────────────────────────
 
 const pieOptions = computed(() => ({
   tooltip: { trigger: 'item', formatter: '{b}: {c} ₫ ({d}%)' },
@@ -257,10 +246,10 @@ const pieOptions = computed(() => ({
 }));
 
 const barOptions = computed(() => {
-  // Aggregate daily
+  
   const daily: Record<string, { in: number, out: number }> = {};
   [...transactions.value].reverse().forEach(t => {
-    // Extract date part only (dd/mm/yyyy) from transactionDate which might have time
+    
     const d = t.transactionDate.split(' ')[0];
     if (!daily[d]) daily[d] = { in: 0, out: 0 };
     daily[d].in += Number(t.creditAmount) || 0;
@@ -284,8 +273,6 @@ const barOptions = computed(() => {
   };
 });
 
-// ─── API Initial Fetch ────────────────────────────────────────────────────
-
 const fetchTransactions = async () => {
   if (!filters.accountNumber) {
     ElMessage.warning("Please enter account number");
@@ -302,12 +289,12 @@ const fetchTransactions = async () => {
     });
 
     if (data.success) {
-      // Sort by latest first
+      
       transactions.value = (data.data || []).sort(() => {
-        // Basic sort: reverse array assuming API returns older to newer
+        
         return -1;
       });
-      // The API typically returns newest first, so we just assign
+      
       transactions.value = data.data || [];
     } else {
       ElMessage.error(data.message || "Failed to fetch transactions");
@@ -327,13 +314,12 @@ const fetchTransactions = async () => {
 };
 
 const initData = async () => {
-  // If account is already given in URL query
+  
   if (filters.accountNumber) {
     fetchTransactions();
     return;
   }
 
-  // Auto-fetch balance to get the primary account number
   loading.value = true;
   try {
     const { data } = await api.post("/balance");
@@ -380,8 +366,6 @@ onMounted(initData);
   flex-shrink: 0;
 }
 
-/* ─── Filters ──────────────────────────────── */
-
 .filter-card :deep(.el-card__body) {
   padding: 24px;
 }
@@ -405,8 +389,6 @@ onMounted(initData);
   padding-top: 22px;
 }
 
-/* ─── VietQR ───────────────────────────────── */
-
 .qr-container {
   width: 100%;
   height: 100%;
@@ -422,8 +404,6 @@ onMounted(initData);
   max-width: 100%;
   object-fit: contain;
 }
-
-/* ─── Summary ──────────────────────────────── */
 
 .summary-row {
   display: grid;
@@ -452,8 +432,6 @@ onMounted(initData);
   font-weight: 700;
 }
 
-/* ─── Charts ───────────────────────────────── */
-
 .charts-row {
   display: grid;
   grid-template-columns: 1fr 2fr;
@@ -474,8 +452,6 @@ onMounted(initData);
   height: 300px;
   width: 100%;
 }
-
-/* ─── Table ────────────────────────────────── */
 
 .table-card :deep(.el-card__body) {
   padding: 0;

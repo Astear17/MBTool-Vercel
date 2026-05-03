@@ -74,7 +74,6 @@ export const broadcastTransaction = async (tx: any, isTest = false) => {
   
   const title = isTest ? '🔔 TEST NOTIFICATION' : `🔔 BIẾN ĐỘNG SỐ DƯ`;
 
-  // Telegram format
   const telegramMsg = `<b>${title}</b>\n\n` +
     `🏦 <b>Tài khoản:</b> ${tx.accountNo}\n` +
     `📅 <b>Thời gian:</b> ${tx.transactionDate}\n` +
@@ -83,7 +82,6 @@ export const broadcastTransaction = async (tx: any, isTest = false) => {
     `📝 <b>Nội dung:</b> <i>${tx.description}</i>\n` +
     `🔖 <b>Mã GD:</b> <code>${tx.refNo}</code>`;
 
-  // Discord format
   const discordEmbed = {
     title: title,
     color: isCredit ? 0x67c23a : 0xf56c6c,

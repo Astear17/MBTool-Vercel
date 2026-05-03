@@ -1,4 +1,3 @@
-/** Core Bank API response wrapper */
 export interface MBResponse<T = unknown> {
   result: {
     ok: boolean;
@@ -9,7 +8,6 @@ export interface MBResponse<T = unknown> {
   [key: string]: T | unknown;
 }
 
-/** Captcha response from Core Bank */
 export interface CaptchaResponse {
   imageString: string;
   result: {
@@ -19,7 +17,6 @@ export interface CaptchaResponse {
   };
 }
 
-/** Account balance info */
 export interface AccountBalance {
   number: string;
   name: string;
@@ -27,14 +24,12 @@ export interface AccountBalance {
   balance: number;
 }
 
-/** Balance summary */
 export interface BalanceSummary {
   totalBalance: number;
   currencyEquivalent: string;
   accounts: AccountBalance[];
 }
 
-/** Transaction record */
 export interface Transaction {
   postDate: string;
   transactionDate: string;
@@ -51,7 +46,6 @@ export interface Transaction {
   type?: string;
 }
 
-/** Session state for a logged-in user */
 export interface SessionState {
   sessionId: string;
   deviceId: string;
@@ -59,14 +53,12 @@ export interface SessionState {
   createdAt: number;
 }
 
-/** Login request body */
 export interface LoginRequest {
   username: string;
   password: string;
   captcha: string;
 }
 
-/** DataEnc request body */
 export interface EncryptRequest {
   payload: Record<string, unknown>;
   sessionId?: string;

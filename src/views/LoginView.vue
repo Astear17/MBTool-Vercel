@@ -41,7 +41,6 @@
         </el-button>
       </el-form>
 
-      <!-- Login progress -->
       <div v-if="loading" class="login-progress">
         <el-progress :percentage="progress" :stroke-width="4" :show-text="false" status="success" />
         <span class="progress-text">{{ statusText }}</span>
@@ -78,7 +77,7 @@ const handleLogin = async () => {
   statusText.value = "🔐 Connecting to Core Bank...";
 
   try {
-    // Simulate progress while auto-login runs
+    
     const progressInterval = setInterval(() => {
       if (progress.value < 85) {
         progress.value += Math.random() * 15;
@@ -119,7 +118,6 @@ const handleLogin = async () => {
   }
 };
 
-
 </script>
 
 <style scoped>
@@ -131,7 +129,7 @@ const handleLogin = async () => {
   justify-content: center;
   position: relative;
   overflow: hidden;
-  background: #020617; /* Deep midnight */
+  background: #020617; 
 }
 
 .login-bg {

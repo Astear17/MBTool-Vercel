@@ -11,7 +11,6 @@ import "./styles/global.css";
 
 const app = createApp(App);
 
-// Register all Element Plus icons
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component);
 }

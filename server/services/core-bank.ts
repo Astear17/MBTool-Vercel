@@ -1,10 +1,3 @@
-/**
- * Core Bank API Service
- *
- * Clean implementation of Core Bank's internet banking API.
- * Handles login, balance, and transaction history.
- */
-
 import { createHash } from "node:crypto";
 import { Client } from "undici";
 import { encrypt } from "./wasm-engine.js";
@@ -17,66 +10,15 @@ import type {
   Transaction,
 } from "../types/index.js";
 
-// ─── Constants ──────────────────────────────────────────────────────────────
-
 const BASE_URL = "https://online.mbbank.com.vn";
 
 const DEFAULT_HEADERS: Record<string, string> = {
   "Cache-Control": "max-age=0",
-  Accept: "application/json, text/plain, */*",
-  Authorization:
-    "Basic RU1CUkVUQUlMV0VCOlNEMjM0ZGZnMzQlI0BGR0AzNHNmc2RmNDU4NDNm",
-  "User-Agent":
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36",
-  Origin: BASE_URL,
-  Referer: `${BASE_URL}/pl/login?returnUrl=%2F`,
-  "Content-Type": "application/json; charset=UTF-8",
-  app: "MB_WEB",
-  "elastic-apm-traceparent":
-    "00-55b950e3fcabc785fa6db4d7deb5ef73-8dbd60b04eda2f34-01",
-  "Sec-Ch-Ua":
-    '"Not.A/Brand";v="8", "Chromium";v="134", "Google Chrome";v="134"',
-  "Sec-Ch-Ua-Mobile": "?0",
-  "Sec-Ch-Ua-Platform": '"Windows"',
-  "Sec-Fetch-Dest": "empty",
-  "Sec-Fetch-Mode": "cors",
-  "Sec-Fetch-Site": "same-origin",
-};
-
-const FPR = "c7a1beebb9400375bb187daa33de9659";
-
-// ─── Helpers ────────────────────────────────────────────────────────────────
-
-function timestamp(): string {
-  const now = new Date();
-  const pad = (n: number, len = 2) => String(n).padStart(len, "0");
-  return (
-    `${now.getFullYear()}${pad(now.getMonth() + 1)}${pad(now.getDate())}` +
-    `${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}` +
-    `${String(now.getMilliseconds()).slice(0, 2)}`
-  );
-}
-
-function generateDeviceId(): string {
-  return `s1rmi184-mbib-0000-0000-${timestamp()}`;
-}
-
-function md5(input: string): string {
-  return createHash("md5").update(input).digest("hex");
-}
-
-// ─── Core Bank Service ────────────────────────────────────────────────────────
-
-export class CoreBankService {
-  private client = new Client(BASE_URL);
-  private session: SessionState | null = null;
-
-  /** Get current session info */
+  Accept: "application/json, text/plain, *
   getSession(): SessionState | null {
     return this.session;
   }
 
-  /** Request a captcha image for login */
   async getCaptcha(): Promise<{ imageBase64: string; deviceId: string }> {
     const deviceId = generateDeviceId();
     const refNo = timestamp();
@@ -105,7 +47,6 @@ export class CoreBankService {
       throw new Error(`Failed to parse Core Bank response: ${responseText.slice(0, 100)}`);
     }
 
-    // Store deviceId for the upcoming login
     this.session = {
       sessionId: "",
       deviceId,
@@ -119,10 +60,6 @@ export class CoreBankService {
     };
   }
 
-  /**
-   * Automatic login: fetches captcha, solves it with OCR, and logs in.
-   * Retries up to `maxRetries` times on captcha failure.
-   */
   async autoLogin(
     username: string,
     password: string,
@@ -131,11 +68,9 @@ export class CoreBankService {
     for (let attempt = 1; attempt <= maxRetries; attempt++) {
       console.log(`🔄 Login attempt ${attempt}/${maxRetries}...`);
 
-      // 1. Get captcha
       const { imageBase64 } = await this.getCaptcha();
       const imageBuffer = Buffer.from(imageBase64, "base64");
 
-      // 2. OCR solve
       const captchaText = await recognizeCaptcha(imageBuffer);
       if (!captchaText) {
         console.log(`   ❌ OCR failed to recognize captcha, retrying...`);
@@ -143,7 +78,6 @@ export class CoreBankService {
       }
       console.log(`   🔍 OCR result: ${captchaText}`);
 
-      // 3. Attempt login
       const result = await this.login(username, password, captchaText);
 
       if (result.success) {
@@ -151,13 +85,11 @@ export class CoreBankService {
         return { ...result, attempts: attempt };
       }
 
-      // If captcha was wrong, retry
       if (result.message.includes("Captcha") || result.message.includes("GW283")) {
         console.log(`   ❌ Captcha incorrect, retrying...`);
         continue;
       }
 
-      // Other errors (wrong password, locked, etc.) - don't retry
       return { ...result, attempts: attempt };
     }
 
@@ -168,7 +100,6 @@ export class CoreBankService {
     };
   }
 
-  /** Login with username, password, and captcha */
   async login(
     username: string,
     password: string,
@@ -242,7 +173,6 @@ export class CoreBankService {
     };
   }
 
-  /** Fetch account balances */
   async getBalance(): Promise<BalanceSummary | null> {
     const data = await this.authenticatedRequest(
       "/api/retail-accountms/accountms/getBalance"
@@ -277,11 +207,10 @@ export class CoreBankService {
     };
   }
 
-  /** Fetch transaction history for an account */
   async getTransactions(
     accountNumber: string,
-    fromDate: string, // DD/MM/YYYY
-    toDate: string // DD/MM/YYYY
+    fromDate: string, 
+    toDate: string 
   ): Promise<Transaction[]> {
     const data = await this.authenticatedRequest(
       "/api/retail-transactionms/transactionms/get-account-transaction-history",
@@ -307,7 +236,6 @@ export class CoreBankService {
     }));
   }
 
-  /** Make an authenticated API request with auto-retry on parse failure */
   private async authenticatedRequest(
     path: string,
     extraBody: Record<string, unknown> = {},
@@ -343,7 +271,7 @@ export class CoreBankService {
     try {
       data = JSON.parse(responseText);
     } catch (e) {
-      // If we get an empty or invalid response, retry once after a short delay
+      
       if (retryCount < 1) {
         console.log(`⚠️ Empty response from bank on ${path}, retrying...`);
         await new Promise(r => setTimeout(r, 1000));
@@ -357,7 +285,7 @@ export class CoreBankService {
     if (data.result.ok) return data;
 
     if (data.result.responseCode === "GW200") {
-      // Session expired
+      
       this.session = null;
       throw new Error("Session expired, please login again");
     }

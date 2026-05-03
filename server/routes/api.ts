@@ -1,7 +1,3 @@
-/**
- * REST API Routes
- */
-
 import { Router, type Request, type Response } from "express";
 import { CoreBankService } from "../services/core-bank.js";
 import { warmup } from "../services/wasm-engine.js";
@@ -13,8 +9,6 @@ import type { LoginRequest } from "../types/index.js";
 const router = Router();
 export const coreBankService = new CoreBankService();
 const txMonitor = new TransactionMonitor(coreBankService);
-
-// ─── Health / Status ────────────────────────────────────────────────────────
 
 router.get("/status", (_req: Request, res: Response) => {
   const session = coreBankService.getSession();
@@ -28,8 +22,6 @@ router.get("/status", (_req: Request, res: Response) => {
   });
 });
 
-// ─── Warmup WASM ────────────────────────────────────────────────────────────
-
 router.post("/warmup", async (_req: Request, res: Response) => {
   try {
     await warmup();
@@ -39,8 +31,6 @@ router.post("/warmup", async (_req: Request, res: Response) => {
   }
 });
 
-// ─── Captcha ────────────────────────────────────────────────────────────────
-
 router.post("/captcha", async (_req: Request, res: Response) => {
   try {
     const captcha = await coreBankService.getCaptcha();
@@ -49,8 +39,6 @@ router.post("/captcha", async (_req: Request, res: Response) => {
     res.status(500).json({ success: false, message: err.message });
   }
 });
-
-// ─── Login (Auto OCR Captcha) ───────────────────────────────────────────────
 
 router.post("/login", async (req: Request, res: Response) => {
   try {
@@ -71,8 +59,6 @@ router.post("/login", async (req: Request, res: Response) => {
   }
 });
 
-// ─── Balance ────────────────────────────────────────────────────────────────
-
 router.post("/balance", async (_req: Request, res: Response) => {
   try {
     const balance = await coreBankService.getBalance();
@@ -81,8 +67,6 @@ router.post("/balance", async (_req: Request, res: Response) => {
     res.status(500).json({ success: false, message: err.message });
   }
 });
-
-// ─── Transactions ───────────────────────────────────────────────────────────
 
 router.post("/transactions", async (req: Request, res: Response) => {
   try {
@@ -107,8 +91,6 @@ router.post("/transactions", async (req: Request, res: Response) => {
   }
 });
 
-// ─── Settings & Notifications ───────────────────────────────────────────────
-
 router.get("/settings", (_req: Request, res: Response) => {
   res.json({ success: true, data: getSettings() });
 });
@@ -117,8 +99,7 @@ router.post("/settings", (req: Request, res: Response) => {
   try {
     saveSettings(req.body);
     const newSettings = getSettings();
-    
-    // Restart monitor if state changed
+
     if (newSettings.monitor.running) {
       txMonitor.start();
     } else {

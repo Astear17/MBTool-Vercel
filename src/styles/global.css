@@ -1,7 +1,5 @@
-/* ─── Core Bank Tool - Premium Design System ─────────────────────────────────── */
-
 :root {
-  /* Colors - Light Mode */
+  
   --bg-primary: #f8fafc;
   --bg-secondary: #ffffff;
   --bg-card: rgba(255, 255, 255, 0.8);
@@ -12,8 +10,7 @@
   --text-primary: #0f172a;
   --text-secondary: #475569;
   --text-muted: #94a3b8;
-  
-  /* Brand Colors */
+
   --accent: #2563eb;
   --accent-glow: rgba(37, 99, 235, 0.15);
   --success: #10b981;
@@ -21,15 +18,13 @@
   --danger: #ef4444;
   --credit: #10b981;
   --debit: #ef4444;
-  
-  /* Layout */
+
   --sidebar-width: 280px;
   --header-height: 72px;
   --radius: 16px;
   --radius-sm: 10px;
   --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  
-  /* Shadows */
+
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
@@ -37,7 +32,7 @@
 }
 
 html.dark {
-  /* Colors - Dark Mode */
+  
   --bg-primary: #020617;
   --bg-secondary: #0f172a;
   --bg-card: rgba(15, 23, 42, 0.7);
@@ -72,15 +67,11 @@ body {
   line-height: 1.5;
 }
 
-/* ─── Typography Improvements ────────────────────────────────────────── */
-
 h1, h2, h3, h4, h5 {
   font-weight: 700;
   letter-spacing: -0.02em;
   color: var(--text-primary);
 }
-
-/* ─── Element Plus Overrides ────────────────────────────────────────── */
 
 .el-card {
   --el-card-bg-color: var(--bg-card);
@@ -151,8 +142,6 @@ html.dark .el-table {
   padding: 16px 0 !important;
 }
 
-/* ─── Glassmorphism Utilities ────────────────────────────────────────── */
-
 .glass {
   background: var(--bg-card);
   backdrop-filter: blur(20px);
@@ -165,8 +154,6 @@ html.dark .el-table {
   backdrop-filter: blur(24px);
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
-
-/* ─── Scrollbar ────────────────────────────────────────────────────────── */
 
 ::-webkit-scrollbar {
   width: 5px;
@@ -186,8 +173,6 @@ html.dark .el-table {
   background: var(--text-muted);
 }
 
-/* ─── Animations ────────────────────────────────────────────────────────── */
-
 @keyframes slideUp {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
@@ -206,7 +191,6 @@ html.dark .el-table {
   animation: pulse-soft 2s ease-in-out infinite;
 }
 
-/* Gradient Texts */
 .text-gradient {
   background: linear-gradient(135deg, #3b82f6, #10b981);
   -webkit-background-clip: text;

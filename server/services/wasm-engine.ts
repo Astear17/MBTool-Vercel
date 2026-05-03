@@ -1,13 +1,4 @@
-/**
- * WASM Encryption Engine
- *
- * Downloads Core Bank's WASM binary and provides the Go runtime bridge
- * to execute the `bder()` encryption function natively in Node.js.
- */
-
 import { request } from "undici";
-
-// ─── Global polyfills required by Go WASM ───────────────────────────────────
 
 const win: Record<string, unknown> = {
   globalThis,
@@ -17,8 +8,6 @@ const win: Record<string, unknown> = {
 (globalThis as any).window = win;
 (globalThis as any).location = new URL("https://online.mbbank.com.vn/pl/login");
 
-// ─── Constants ──────────────────────────────────────────────────────────────
-
 const WASM_URL = "https://online.mbbank.com.vn/assets/wasm/main.wasm";
 
 const HEADERS = {
@@ -27,8 +16,6 @@ const HEADERS = {
   Origin: "https://online.mbbank.com.vn",
   Referer: "https://online.mbbank.com.vn/",
 };
-
-// ─── Async helper (Go runtime uses generators) ─────────────────────────────
 
 function runGenerator(
   _ctx: unknown,
@@ -58,8 +45,6 @@ function runGenerator(
     step(gen.next());
   });
 }
-
-// ─── Minimal fs polyfill for Go WASM ────────────────────────────────────────
 
 (() => {
   if (!(globalThis as any).fs) {
@@ -114,8 +99,6 @@ function runGenerator(
     };
   }
 })();
-
-// ─── Go Runtime Class ───────────────────────────────────────────────────────
 
 const textEncoder = new TextEncoder();
 const textDecoder = new TextDecoder("utf-8");
@@ -559,11 +542,8 @@ class GoRuntime {
   }
 }
 
-// ─── WASM Engine (public API) ───────────────────────────────────────────────
-
 let cachedWasm: Buffer | null = null;
 
-/** Download WASM binary from Core Bank (cached after first call) */
 async function downloadWasm(): Promise<Buffer> {
   if (cachedWasm) return cachedWasm;
 
@@ -574,7 +554,6 @@ async function downloadWasm(): Promise<Buffer> {
   return cachedWasm;
 }
 
-/** Encrypt a request payload using Core Bank's WASM `bder()` function */
 export async function encrypt(
   data: Record<string, unknown>,
   sessionId = "0"
@@ -587,7 +566,6 @@ export async function encrypt(
   return (globalThis as any).bder(JSON.stringify(data), sessionId);
 }
 
-/** Pre-download WASM binary for faster first encryption */
 export async function warmup(): Promise<void> {
   await downloadWasm();
 }

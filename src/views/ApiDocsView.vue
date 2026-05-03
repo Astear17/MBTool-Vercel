@@ -9,7 +9,6 @@
 
     <p class="page-desc" v-html="$t('api.desc')"></p>
 
-    <!-- Quick Start -->
     <el-card class="doc-section">
       <template #header>
         <div class="section-title">
@@ -26,7 +25,6 @@
       </div>
     </el-card>
 
-    <!-- Endpoints -->
     <div v-for="ep in endpoints" :key="ep.method + ep.path" class="endpoint-card">
       <el-card>
         <template #header>
@@ -53,7 +51,7 @@
         </template>
 
         <div class="endpoint-body">
-          <!-- API Playground -->
+          
           <el-collapse-transition>
             <div v-show="activeTest === ep.path" class="playground-wrapper">
               <div class="playground">
@@ -62,7 +60,7 @@
                 </div>
                 
                 <div class="pg-body">
-                  <!-- Request Editor -->
+                  
                   <div class="pg-request" v-if="ep.method !== 'GET'">
                     <div class="pg-label">{{ $t('api.reqBody') }}</div>
                     <el-input
@@ -75,7 +73,6 @@
                     />
                   </div>
 
-                  <!-- Actions -->
                   <div class="pg-actions">
                     <el-button 
                       type="success" 
@@ -88,7 +85,6 @@
                     </el-button>
                   </div>
 
-                  <!-- Response Viewer -->
                   <div class="pg-response" v-if="testResponses[ep.path]">
                     <div class="pg-label response-label">
                       <span>{{ $t('api.response') }}</span>
@@ -113,7 +109,6 @@
             </div>
           </el-collapse-transition>
 
-          <!-- Request Dictionary Table -->
           <div class="param-section" v-if="ep.body">
             <h4>{{ $t('api.reqBody') }}</h4>
             <el-table :data="ep.body" style="width: 100%" size="small">
@@ -130,7 +125,6 @@
             </el-table>
           </div>
 
-          <!-- Examples Grid -->
           <div class="example-grid">
             <div class="example-block" v-if="ep.reqExample">
               <h4>{{ $t('api.reqEx') }}</h4>
@@ -154,7 +148,6 @@
             </div>
           </div>
 
-          <!-- Integration Code -->
           <div class="integration" v-if="ep.integration">
             <h4>{{ $t('api.integration') }}</h4>
             <div class="code-block small">
@@ -169,7 +162,6 @@
       </el-card>
     </div>
 
-    <!-- Node.js SDK Example -->
     <el-card class="doc-section">
       <template #header>
         <div class="section-title">
@@ -186,7 +178,6 @@
       </div>
     </el-card>
 
-    <!-- Python Example -->
     <el-card class="doc-section">
       <template #header>
         <div class="section-title">
@@ -218,8 +209,6 @@ const copy = async (text: string) => {
     ElMessage.error("Copy failed");
   }
 };
-
-// ─── API Playground State ─────────────────────────────────────────────────
 
 const activeTest = ref<string | null>(null);
 const testPayloads = reactive<Record<string, string>>({});
@@ -276,8 +265,6 @@ const sendTest = async (ep: any) => {
   }
 };
 
-// ─── Docs Content ────────────────────────────────────────────────────────
-
 const BASE_URL = window.location.origin + '/api';
 
 const quickStartCode = `# 1. Login (captcha tự động OCR)
@@ -314,7 +301,7 @@ const endpoints = [
 }`,
     integration: `const res = await fetch("${BASE_URL}/status");
 const data = await res.json();
-console.log(data.loggedIn); // true/false`,
+console.log(data.loggedIn); 
   },
   {
     method: "POST",
@@ -349,7 +336,7 @@ console.log(data.loggedIn); // true/false`,
 const data = await res.json();
 if (data.success) {
   console.log("Đăng nhập thành công!", data.data.customerName);
-  // Session được lưu tự động trên server
+  
 }`,
   },
   {
@@ -481,7 +468,7 @@ const API = axios.create({
 });
 
 async function main() {
-  // 1. Login
+  
   const { data: loginRes } = await API.post("/login", {
     username: "0912345678",
     password: "your_password",
@@ -493,11 +480,9 @@ async function main() {
     return;
   }
 
-  // 2. Get Balance
   const { data: balanceRes } = await API.post("/balance");
   console.log("Total Balance:", balanceRes.data.totalBalance, "VND");
 
-  // 3. Get Transactions (last 30 days)
   const now = new Date();
   const ago = new Date(now.getTime() - 30 * 86400000);
   const fmt = (d: Date) =>
@@ -516,7 +501,6 @@ async function main() {
     console.log(\`  \${tx.transactionDate} \${type}\${amount} \${tx.description}\`);
   });
 
-  // 4. Generate dataEnc (standalone)
   const { data: encRes } = await API.post("/encrypt", {
     payload: { userId: "test", timestamp: Date.now() },
   });
@@ -598,8 +582,6 @@ print(f"dataEnc: {enc['dataEnc']}")`;
   color: var(--accent);
 }
 
-/* ─── Sections ─────────────────────────────── */
-
 .doc-section {
   margin-bottom: 20px;
 }
@@ -611,8 +593,6 @@ print(f"dataEnc: {enc['dataEnc']}")`;
   font-weight: 600;
   font-size: 16px;
 }
-
-/* ─── Endpoint Cards ───────────────────────── */
 
 .endpoint-card {
   margin-bottom: 16px;
@@ -657,8 +637,6 @@ print(f"dataEnc: {enc['dataEnc']}")`;
   gap: 20px;
   margin-top: 10px;
 }
-
-/* ─── API Playground ───────────────────────── */
 
 .playground-wrapper {
   margin-bottom: 16px;
@@ -745,8 +723,6 @@ print(f"dataEnc: {enc['dataEnc']}")`;
   color: #a6e22e !important;
 }
 
-/* ─── Params ───────────────────────────────── */
-
 .param-section h4,
 .example-block h4,
 .integration h4 {
@@ -757,8 +733,6 @@ print(f"dataEnc: {enc['dataEnc']}")`;
   letter-spacing: 0.5px;
   margin-bottom: 8px;
 }
-
-/* ─── Code Blocks ──────────────────────────── */
 
 .code-block {
   background: var(--bg-input);
@@ -800,8 +774,6 @@ print(f"dataEnc: {enc['dataEnc']}")`;
 .code-block.small code {
   font-size: 12px;
 }
-
-/* ─── Example Grid ─────────────────────────── */
 
 .example-grid {
   display: grid;

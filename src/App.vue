@@ -1,6 +1,6 @@
 <template>
   <div class="app-root" :class="{ dark: isDark }">
-    <!-- Login page: full screen, no sidebar -->
+    
     <template v-if="isLoginPage">
       <router-view v-slot="{ Component }">
         <transition name="fade-slide" mode="out-in">
@@ -9,9 +9,8 @@
       </router-view>
     </template>
 
-    <!-- Main layout with sidebar -->
     <template v-else>
-      <!-- Splash screen for Render cold start -->
+      
       <div v-if="!serverWakeup" class="wakeup-splash">
         <div class="wakeup-content">
           <el-icon class="wakeup-icon is-loading" :size="60"><Loading /></el-icon>
@@ -86,7 +85,6 @@
         </div>
       </aside>
 
-      <!-- Mobile Header Overlay -->
       <div class="mobile-header">
         <el-button text class="mobile-menu-btn" @click="mobileMenuOpen = !mobileMenuOpen">
           <el-icon :size="24"><Expand v-if="!mobileMenuOpen"/><Fold v-else/></el-icon>
@@ -94,7 +92,6 @@
         <span class="mobile-title">MB Panel PRO</span>
       </div>
 
-      <!-- Mobile Backdrop -->
       <div v-if="mobileMenuOpen" class="mobile-backdrop" @click="mobileMenuOpen = false"></div>
 
       <main class="main-content">
@@ -163,13 +160,12 @@ const checkSession = async (retryCount = 0) => {
       if (route.path !== '/login' && route.path !== '/') router.push('/login');
     }
   } catch (err) {
-    // If it's a network error/cold start, retry a few times
+    
     if (retryCount < 5) {
       setTimeout(() => checkSession(retryCount + 1), 3000);
       return;
     }
-    
-    // After 5 retries, still fail but stop the splash if we're on login page
+
     serverWakeup.value = isLoginPage.value;
     sessionActive.value = localStorage.getItem('isAuthenticated') === 'true';
   }
@@ -194,8 +190,6 @@ onMounted(() => {
   width: 100vw;
   overflow: hidden;
 }
-
-/* ─── Sidebar ──────────────────────────────────── */
 
 .sidebar {
   width: var(--sidebar-width);
@@ -305,7 +299,6 @@ html.dark .sidebar {
   gap: 4px;
 }
 
-
 .session-info {
   display: flex;
   align-items: center;
@@ -321,8 +314,6 @@ html.dark .sidebar {
   background: var(--success);
 }
 
-/* ─── Main Content ─────────────────────────────── */
-
 .main-content {
   flex: 1;
   height: 100vh;
@@ -333,8 +324,6 @@ html.dark .sidebar {
     radial-gradient(ellipse at 80% 100%, rgba(103, 194, 58, 0.04) 0%, transparent 60%),
     var(--bg-primary);
 }
-
-/* ─── Mobile View ──────────────────────────────── */
 
 .mobile-header {
   display: none;
@@ -405,8 +394,6 @@ html.dark .sidebar {
     width: 100vw;
   }
 }
-
-/* ─── Wakeup Splash ────────────────────────────── */
 
 .wakeup-splash {
   position: fixed;

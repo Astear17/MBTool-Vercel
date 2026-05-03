@@ -5,7 +5,6 @@
       <p class="page-desc">{{ $t('settings.desc') }}</p>
     </div>
 
-    <!-- Master Monitor Switch -->
     <div class="monitor-hero glass" :class="{ 'is-active': settings.monitor.running }">
       <div class="hero-left">
         <el-icon class="pulse-icon" v-if="settings.monitor.running"><VideoPlay /></el-icon>
@@ -32,7 +31,7 @@
     </div>
 
     <div class="settings-grid">
-      <!-- General Monitor Settings -->
+      
       <el-card class="panel glass-card">
         <template #header>
           <div class="panel-header">
@@ -52,7 +51,6 @@
         </el-form>
       </el-card>
 
-      <!-- Telegram -->
       <el-card class="panel glass-card" :class="{ 'card-disabled': !settings.telegram.enabled }">
         <template #header>
           <div class="panel-header space-between">
@@ -74,7 +72,6 @@
         </el-form>
       </el-card>
 
-      <!-- Discord -->
       <el-card class="panel glass-card" :class="{ 'card-disabled': !settings.discord.enabled }">
         <template #header>
           <div class="panel-header space-between">
@@ -92,7 +89,6 @@
         </el-form>
       </el-card>
 
-      <!-- Custom Webhook -->
       <el-card class="panel glass-card" :class="{ 'card-disabled': !settings.customWebhook.enabled }">
         <template #header>
           <div class="panel-header space-between">
@@ -114,7 +110,6 @@
       </el-card>
     </div>
 
-    <!-- Actions -->
     <div class="settings-actions glass">
       <el-button @click="testNotification" :loading="testing" :icon="Bell" round size="large">
         {{ $t('settings.testBtn') }}
@@ -174,8 +169,6 @@ const save = async () => {
     saving.value = false;
   }
 };
-
-
 
 const testNotification = async () => {
   testing.value = true;
