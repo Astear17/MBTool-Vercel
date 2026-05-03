@@ -3,12 +3,12 @@
  */
 
 import { Router, type Request, type Response } from "express";
-import { CoreBankService } from "../services/core-bank";
-import { warmup } from "../services/wasm-engine";
-import { getSettings, saveSettings } from "../services/settings";
-import { triggerTestNotification } from "../services/notifier";
-import { TransactionMonitor } from "../services/monitor";
-import type { LoginRequest } from "../types";
+import { CoreBankService } from "../services/core-bank.js";
+import { warmup } from "../services/wasm-engine.js";
+import { getSettings, saveSettings } from "../services/settings.js";
+import { triggerTestNotification } from "../services/notifier.js";
+import { TransactionMonitor } from "../services/monitor.js";
+import type { LoginRequest } from "../types/index.js";
 
 const router = Router();
 export const coreBankService = new CoreBankService();

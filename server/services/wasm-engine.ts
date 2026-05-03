@@ -582,7 +582,7 @@ export async function encrypt(
   const wasmBytes = await downloadWasm();
   const go = new GoRuntime();
   const result = await WebAssembly.instantiate(wasmBytes, go.importObject);
-  const instance = (result as WebAssembly.WebAssemblyInstantiatedSource).instance;
+  const instance = (result as any).instance || result;
   go.run(instance);
   return (globalThis as any).bder(JSON.stringify(data), sessionId);
 }

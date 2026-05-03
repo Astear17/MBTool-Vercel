@@ -7,15 +7,15 @@
 
 import { createHash } from "node:crypto";
 import { Client } from "undici";
-import { encrypt } from "./wasm-engine";
-import { recognizeCaptcha } from "./captcha-ocr";
+import { encrypt } from "./wasm-engine.js";
+import { recognizeCaptcha } from "./captcha-ocr.js";
 import type {
   CaptchaResponse,
   SessionState,
   BalanceSummary,
   AccountBalance,
   Transaction,
-} from "../types";
+} from "../types/index.js";
 
 // ─── Constants ──────────────────────────────────────────────────────────────
 

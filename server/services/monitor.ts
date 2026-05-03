@@ -1,6 +1,6 @@
-import { getSettings } from './settings';
-import { broadcastTransaction } from './notifier';
-import { CoreBankService } from './core-bank';
+import { getSettings } from './settings.js';
+import { broadcastTransaction } from './notifier.js';
+import { CoreBankService } from './core-bank.js';
 
 export class TransactionMonitor {
   private timer: NodeJS.Timeout | null = null;

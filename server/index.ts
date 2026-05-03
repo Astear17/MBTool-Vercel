@@ -6,9 +6,9 @@ import express from "express";
 import cors from "cors";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import apiRoutes from "./routes/api";
-import { warmup } from "./services/wasm-engine";
-import { warmupOCR } from "./services/captcha-ocr";
+import apiRoutes from "./routes/api.js";
+import { warmup } from "./services/wasm-engine.js";
+import { warmupOCR } from "./services/captcha-ocr.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PORT = process.env.PORT || 2001;
