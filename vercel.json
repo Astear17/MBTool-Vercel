@@ -1,0 +1,13 @@
+{
+  "functions": {
+    "api/index.ts": {
+      "includeFiles": "server/model.onnx"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/index.ts"
+    }
+  ]
+}

@@ -8,7 +8,10 @@ export interface Settings {
   monitor: { intervalSeconds: number; running: boolean };
 }
 
-const SETTINGS_PATH = path.join(process.cwd(), 'server', 'data', 'settings.json');
+const isVercel = !!process.env.VERCEL;
+const SETTINGS_PATH = isVercel
+  ? path.join('/tmp', 'settings.json')
+  : path.join(process.cwd(), 'server', 'data', 'settings.json');
 
 export const getSettings = (): Settings => {
   if (!fs.existsSync(SETTINGS_PATH)) {
