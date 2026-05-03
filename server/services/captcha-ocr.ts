@@ -3,26 +3,18 @@
  *
  * Uses a purpose-trained ONNX model to recognize Core Bank captcha images.
  * Model auto-downloads from GitHub on first run and is cached locally.
- * Uses onnxruntime-web (WASM backend) for Vercel compatibility (small bundle size).
  */
 
-import { existsSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import sharp from "sharp";
-import * as ort from "onnxruntime-web";
-
-// ─── Configure ONNX Runtime for Node.js WASM backend ────────────────────────
-
-ort.env.wasm.numThreads = 1;
+import * as ort from "onnxruntime-node";
 
 // ─── Constants ──────────────────────────────────────────────────────────────
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const LOCAL_MODEL_PATH = join(__dirname, "../model.onnx");
-const VERCEL_MODEL_PATH = "/tmp/model.onnx";
-const MODEL_DOWNLOAD_URL =
-  "https://github.com/Astear17/MBTool-Vercel/raw/main/server/model.onnx";
+const MODEL_PATH = join(__dirname, "../model.onnx");
 
 /** Character set: 0-9 a-z A-Z (sorted) — matches the training data */
 const CHARSET: string[] = [];
@@ -35,31 +27,16 @@ CHARSET.sort();
 
 let session: ort.InferenceSession | null = null;
 
-/** Resolve the model path: use local file if present, otherwise download to /tmp */
-async function resolveModelPath(): Promise<string> {
-  // Local development: model is right next to the server code
-  if (existsSync(LOCAL_MODEL_PATH)) return LOCAL_MODEL_PATH;
-
-  // Vercel / serverless: download model to /tmp (persists across warm invocations)
-  if (existsSync(VERCEL_MODEL_PATH)) return VERCEL_MODEL_PATH;
-
-  console.log("⬇️  Downloading OCR model to /tmp...");
-  const res = await fetch(MODEL_DOWNLOAD_URL);
-  if (!res.ok) {
-    throw new Error(`Failed to download OCR model: ${res.status} ${res.statusText}`);
+async function checkModelExists(): Promise<void> {
+  if (!existsSync(MODEL_PATH)) {
+    throw new Error(`OCR model not found at ${MODEL_PATH}. Please provide model.onnx manually.`);
   }
-  const buffer = Buffer.from(await res.arrayBuffer());
-  writeFileSync(VERCEL_MODEL_PATH, buffer);
-  console.log(`✅ OCR model downloaded (${(buffer.length / 1024 / 1024).toFixed(1)} MB)`);
-  return VERCEL_MODEL_PATH;
 }
 
 async function getSession(): Promise<ort.InferenceSession> {
   if (session) return session;
-  const modelPath = await resolveModelPath();
-  // Load model as ArrayBuffer for onnxruntime-web compatibility
-  const modelBuffer = readFileSync(modelPath);
-  session = await ort.InferenceSession.create(modelBuffer.buffer);
+  await checkModelExists();
+  session = await ort.InferenceSession.create(MODEL_PATH);
   return session;
 }
 

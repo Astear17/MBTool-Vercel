@@ -54,6 +54,7 @@
 
           <div class="developer-credits">
             Developed by <strong><a href="https://facebook.com/dangquochuy.dev" target="_blank" style="color: var(--text-primary); text-decoration: none;">Dang Quoc Huy</a></strong> with ❤️
+            <br/>Rebuilt by <strong><a href="https://github.com/Astear17" target="_blank" style="color: var(--text-primary); text-decoration: none;">Astear17</a></strong>
           </div>
           
           <div class="sidebar-actions">
@@ -146,13 +147,15 @@ const checkSession = async () => {
     if (data.loggedIn) {
       localStorage.setItem('isAuthenticated', 'true');
     } else {
+      // Backend says not logged in — only redirect if we thought we were authenticated
+      // This handles cold-start / server restart gracefully
       localStorage.removeItem('isAuthenticated');
       if (route.path !== '/login' && route.path !== '/') router.push('/login');
     }
   } catch {
-    sessionActive.value = false;
-    localStorage.removeItem('isAuthenticated');
-    if (route.path !== '/login' && route.path !== '/') router.push('/login');
+    // Network error or server unavailable — don't immediately kick user out
+    // Keep existing auth state from localStorage to avoid flicker
+    sessionActive.value = localStorage.getItem('isAuthenticated') === 'true';
   }
 };
 

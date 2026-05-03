@@ -6,134 +6,225 @@
     <img src="https://img.shields.io/badge/Vue.js-3.x-4fc08d" alt="Vue" />
     <img src="https://img.shields.io/badge/TypeScript-5.x-blue" alt="TypeScript" />
     <img src="https://img.shields.io/badge/Docker-Ready-2496ED" alt="Docker" />
+    <img src="https://img.shields.io/badge/Render-Deploy-46e3b7" alt="Render" />
   </p>
   <p>
-    <a href="https://vercel.com/new/git/clone?repository-url=https%3A%2F%2Fgithub.com%2FAstear17%2FMBTool-Vercel&env=PORT,VITE_PORT&buildCommand=vite+build&framework=vite">
-      <img src="https://vercel.com/button" alt="Deploy with Vercel" />
+    <a href="https://render.com/deploy?repo=https://github.com/Astear17/MBTool-Vercel">
+      <img src="https://render.com/images/deploy-to-render-button.svg" alt="Deploy to Render" />
     </a>
   </p>
 </div>
 
-## 🌟 Thông tin Dự Án (Overview)
+---
 
-**CoreBank Panel PRO** là một hệ thống tự động hoá và giám sát giao dịch ngân hàng mạnh mẽ. Được xây dựng lại hoàn toàn bằng TypeScript, hệ thống không phụ thuộc vào trình duyệt ẩn danh (Puppeteer) nặng nề mà kết nối trực tiếp vào luồng API của ứng dụng Core Bank thông qua WebAssembly (WASM) và mô hình học máy OCR cục bộ.
+## 🌟 Overview
 
-> 🛠 **Developed by Dang Quoc Huy with ❤️**
-> 
-> *This is a fork of [danieldev23/corebank-panel](https://github.com/danieldev23/corebank-panel).*
+**CoreBank Panel PRO** is a powerful automation and transaction monitoring system for Core Bank internet banking. Built entirely in TypeScript, it connects directly to the Core Bank API flow using **WebAssembly (WASM)** encryption and a local **ONNX AI model** for captcha solving — no browser automation (Puppeteer) needed.
+
+> 🛠 **Originally developed by [Dang Quoc Huy](https://facebook.com/dangquochuy.dev) with ❤️**
+>
+> 🔀 **Rebuilt & maintained by [Astear17](https://github.com/Astear17)** — *This is a fork of [danieldev23/corebank-panel](https://github.com/danieldev23/corebank-panel).*
 
 ---
 
-## ⚡ Tính năng Nổi Bật (Features)
+## ⚡ Features
 
-1. **Auto Login & Captcha Giải Mã Tự Động**: 
-   - Tự động vượt qua Captcha bằng AI OCR (Mô hình ONNX cục bộ). Không cần API bên thứ 3.
-   - Cơ chế tự động thử lại (Retry) thông minh.
-   - Duy trì Session API 24/7.
-2. **Theo Dõi Giao Dịch Thời Gian Thực (Transaction Monitor)**:
-   - Theo dõi số dư `Balance` và Biến động số dư `Transactions` ngầm.
-3. **Multi-Channel Notifications (Cảnh báo thông minh)**:
-   - Tích hợp 3 kênh nhận thông báo mạnh mẽ: **Telegram**, **Discord**, và custom **Webhooks**.
-   - Phân tích và báo động ngay lập tức khi phát hiện có giao dịch mới (Credit/Debit).
-4. **Bảo Mật API Nguyên Bản (WASM Engine)**:
-   - Cơ chế mã hoá chữ ký `dataEnc` chính chủ từ nền tảng ứng dụng Core Bank bằng Go WASM.
-5. **Giao Diện Quản Trị Chuyên Nghiệp (Vue 3 UI)**:
-   - Dashboard báo cáo trực quan, có biểu đồ thống kê, QR hoá đơn tự động (VietQR).
-   - Hỗ trợ Dark Mode & Light Mode chuẩn chỉ.
-   - Đa ngôn ngữ (Tiếng Việt & Tiếng Anh).
+| Feature | Description |
+|---------|-------------|
+| 🔐 **Auto Login & Captcha Solving** | AI-powered OCR (ONNX model) solves captcha automatically. Smart retry mechanism. No third-party API needed. |
+| 📊 **Real-time Transaction Monitor** | Background polling for balance changes and new transactions. |
+| 🔔 **Multi-Channel Notifications** | Instant alerts via **Telegram**, **Discord**, and custom **Webhooks** when transactions are detected. |
+| 🛡️ **Native WASM Encryption** | Uses Core Bank's own Go WASM binary for request encryption (`dataEnc`). |
+| 🎨 **Professional Admin UI** | Vue 3 dashboard with charts, VietQR generation, dark/light mode, and bilingual support (🇻🇳 Vietnamese & 🇬🇧 English). |
 
 ---
 
-## 🚀 Hướng Dẫn Cài Đặt (Deployment)
+## 🚀 Deployment Guide
 
-Hệ thống được thiết kế tối ưu nhất khi chạy với **Docker**. Tuy nhiên bạn cũng có thể tự chạy môi trường Node.js local.
+This app requires a **persistent backend server** (Express + Node.js). Choose one of the deployment methods below.
 
-### 1. Chuẩn Bị File Cấu Hình `.env`
+### Option 1: Deploy to Render (Recommended for Cloud)
 
-Tạo một file `.env` ở thư mục gốc (Hoặc copy từ `.env.example`). Bạn có thể đổi Port linh hoạt để không bị đụng độ với các services khác:
+The fastest way to get started — no server setup required.
 
+**Step 1:** Click the button below:
+
+<p align="center">
+  <a href="https://render.com/deploy?repo=https://github.com/Astear17/MBTool-Vercel">
+    <img src="https://render.com/images/deploy-to-render-button.svg" alt="Deploy to Render" />
+  </a>
+</p>
+
+**Step 2:** Render will auto-detect the `render.yaml` blueprint and configure:
+- **Build Command:** `npm install && npm run build`
+- **Start Command:** `npm start`
+- **Environment:** Node.js with `PORT=10000`
+
+**Step 3:** Wait for the build to complete (~2-3 minutes), then open your Render URL and log in.
+
+> **💡 Tip:** Render's free tier may spin down after inactivity. The first request after idle will take ~30 seconds for a cold start.
+
+---
+
+### Option 2: Docker (Best for VPS / Self-Hosted)
+
+The most reliable option for 24/7 operation with persistent data.
+
+**Step 1:** Clone the repository:
+```bash
+git clone https://github.com/Astear17/MBTool-Vercel.git
+cd MBTool-Vercel
+```
+
+**Step 2:** Create `.env` file (optional, to change ports):
 ```env
-# Port dành cho Docker và Backend Server
 PORT=2001
-
-# Port dành riêng cho chế độ Code Dev Frontend (tuỳ chọn)
 VITE_PORT=2000
 ```
 
-### 2. Chạy bằng Docker (Khuyên dùng cho Máy chủ/VPS)
-
-Đây là cách an toàn và gọn gàng nhất. Frontend tĩnh và Backend API sẽ được phục vụ chung qua một Port duy nhất!
-
+**Step 3:** Build and run:
 ```bash
 docker-compose up -d --build
 ```
 
-Mở trình duyệt, truy cập vào `http://localhost:2001` (hoặc Port bạn cấu hình) và hưởng thụ! 🎉 Mọi dữ liệu cài đặt cài đặt (Telegram/Discord) sẽ được sao lưu an toàn tự động ra bên ngoài trong thư mục `server/data/`.
+**Step 4:** Open `http://localhost:2001` in your browser. 🎉
+
+> Settings (Telegram/Discord tokens) are persisted in `server/data/` via Docker volumes.
 
 ---
 
-### 3. Chạy Bằng Node.js (Môi trường Phát Triển)
+### Option 3: Node.js (Local Development)
 
-Yêu cầu: `Node.js >= 20`
+**Requirements:** Node.js ≥ 20
 
-1. **Cài đặt thư viện:**
-   ```bash
-   npm install
-   ```
+```bash
+# 1. Install dependencies
+npm install
 
-2. **Chạy Frontend (Port 2000):**
-   ```bash
-   npm run dev
-   ```
+# 2. Start both frontend & backend together
+bash start.sh
 
-3. **Chạy Backend Server (Port 2001):**
-   Mở một Terminal phụ và chạy:
-   ```bash
-   npm run server
-   ```
+# — OR start them separately: —
+
+# Terminal 1: Frontend (Port 2000)
+npm run dev
+
+# Terminal 2: Backend (Port 2001)
+npm run server
+```
 
 ---
 
-## 🔧 Phân Nhánh Thư Mục (Directory Structure)
+## 📖 Usage Guide
+
+### 1. Login
+
+1. Open the app URL in your browser.
+2. Enter your Core Bank **phone number** and **password**.
+3. Click **Login** — the system will:
+   - Fetch a captcha image from Core Bank
+   - Solve it automatically using the AI OCR model
+   - Encrypt credentials using Core Bank's WASM engine
+   - Authenticate and establish a session
+4. On success, you'll be redirected to the **Dashboard**.
+
+> 🔄 If captcha solving fails, the system retries automatically (up to 5 attempts).
+
+### 2. Dashboard
+
+- View **total balance** across all accounts.
+- See individual account cards with masked account numbers.
+- Click **View Transactions** on any account to jump to transaction history.
+
+### 3. Transaction History
+
+- Select an **account number** from the dropdown.
+- Pick a **date range** (From / To).
+- Click **Fetch** to retrieve transaction history.
+- Transactions show: date, amount, type (credit/debit), description, and reference number.
+
+### 4. Settings & Notifications
+
+Configure real-time alerts for new transactions:
+
+#### Telegram
+1. Create a bot via [@BotFather](https://t.me/BotFather) and get the **Bot Token**.
+2. Get your **Chat ID** (use [@userinfobot](https://t.me/userinfobot)).
+3. Enter both in the Settings panel and toggle **Enabled**.
+
+#### Discord
+1. In your Discord server, go to **Server Settings → Integrations → Webhooks**.
+2. Create a webhook and copy the **Webhook URL**.
+3. Paste it in the Settings panel and toggle **Enabled**.
+
+#### Custom Webhook
+1. Enter your webhook **URL** and optional **Secret** (sent as `X-Webhook-Secret` header).
+2. Transaction data is POSTed as JSON.
+
+#### Transaction Monitor
+- Set the **polling interval** (minimum 10 seconds).
+- Toggle **Running** to start/stop background monitoring.
+- Use **Test Notification** to verify your notification channels.
+
+### 5. API Docs
+
+The app includes built-in API documentation accessible from the sidebar. You can integrate with your own systems using the REST API. Code examples in Node.js, Python, and cURL are provided.
+
+---
+
+## 🔧 Project Structure
 
 ```text
-core-bank-tool/
+corebank-panel-pro/
 ├── server/
-│   ├── index.ts               # Backend Entrypoint (Express)
-│   ├── routes/                # API REST Routes
+│   ├── index.ts               # Express backend entrypoint
+│   ├── routes/api.ts          # REST API routes
 │   ├── services/
-│   │   ├── core-bank.ts         # Core Core Bank Services
-│   │   ├── captcha-ocr.ts     # ONNX AI Runtime cho Captcha
-│   │   ├── wasm-engine.ts     # Go WASM Encryiption Bridge
-│   │   ├── monitor.ts         # Cronjob theo dõi giao dịch ngầm
-│   │   └── notifier.ts        # Bắn thông báo Telegram/Discord/Webhook
-│   ├── model.onnx             # Model nhận diện Captcha AI
-│   └── data/                  # Lưu trữ config (Settings.json)
-├── src/                       # Frontend Vue.js Assets
-│   ├── App.vue                # Khung sườn & Layout hệ thống
-│   ├── views/                 # Chứa các màn hình (Dashboard, Settings, API Docs...)
-│   └── locales/               # Cấu hình đa ngôn ngữ (EN, VI)
-├── Dockerfile
-├── docker-compose.yml
+│   │   ├── core-bank.ts       # Core Bank API integration
+│   │   ├── captcha-ocr.ts     # ONNX AI captcha recognition
+│   │   ├── wasm-engine.ts     # Go WASM encryption bridge
+│   │   ├── monitor.ts         # Background transaction polling
+│   │   ├── notifier.ts        # Telegram/Discord/Webhook alerts
+│   │   └── settings.ts        # Configuration persistence
+│   ├── model.onnx             # AI captcha recognition model
+│   └── data/                  # Persistent settings storage
+├── src/                       # Vue.js 3 frontend
+│   ├── App.vue                # Main layout with sidebar
+│   ├── views/                 # Pages (Dashboard, Transactions, Settings, API Docs)
+│   ├── locales/               # i18n translations (EN, VI)
+│   └── api/                   # Axios API client
+├── render.yaml                # Render deployment blueprint
+├── Dockerfile                 # Docker multi-stage build
+├── docker-compose.yml         # Docker Compose configuration
 └── package.json
 ```
 
 ---
 
-## 📚 Tích Hợp (API Integration Docs)
+## ❓ FAQ
 
-Hệ thống đi kèm tính năng **API Docs** ngay trên thanh Menu của phần mềm! Bạn có thể dùng API của dự án này để rẽ nhánh tích hợp với code PHP/C#/Python của hệ thống bạn. Xem chi tiết Code Example (Node/Python/cURL) ngay bên trong App.
+**Q: Why not deploy on Vercel?**
+> This app needs a **persistent Node.js server** for session management, WASM execution, ONNX inference, and background transaction monitoring. Vercel's serverless functions are stateless and have a 250MB size limit that conflicts with the native ONNX runtime. Render, Railway, or a VPS with Docker are better fits.
+
+**Q: The app asks me to re-login when I switch pages?**
+> This happens when the backend server restarts (session is stored in memory). On a persistent server (Render/Docker), this should not happen during normal use. If it does, it means the server process restarted.
+
+**Q: Can I use this with multiple accounts?**
+> The current version supports one active session at a time. Log out and log in with different credentials to switch accounts.
+
+**Q: Is this safe?**
+> Your credentials are sent to your own backend server only — never to any third party. The WASM encryption uses Core Bank's official encryption module.
 
 ---
 
 ## ⚖️ License & Disclaimer
 
 ### License
-Dự án này được phát hành dưới giấy phép **MIT License**. Bạn có toàn quyền sử dụng, sao chép và chỉnh sửa mã nguồn. Xem chi tiết trong file [LICENSE](LICENSE).
+This project is released under the **MIT License**. You are free to use, copy, and modify the source code. See [LICENSE](LICENSE) for details.
 
-### Disclaimer (Miễn trừ trách nhiệm)
-**CoreBank Panel PRO** được phát triển hoàn toàn với **mục đích giáo dục, nghiên cứu thuật toán tự động hoá và cá nhân học hỏi**. 
-Dự án được cung cấp nguyên bản "AS IS", không đi kèm bất kỳ bảo hành nào.
-Tác giả (**Dang Quoc Huy**) **TUYỆT ĐỐI KHÔNG CHỊU BẤT KỲ TRÁCH NHIỆM PHÁP LÝ NÀO** cho những rủi ro, thiệt hại hoặc hậu quả gây ra bởi việc lạm dụng công cụ này vào các mục đích vi phạm điều khoản dịch vụ của Core Bank (Terms of Service) hoặc vi phạm pháp luật hiện hành. Người dùng tự chịu mọi trách nhiệm về hành vi của mình khi sử dụng bộ công cụ này.
+### Disclaimer
+**CoreBank Panel PRO** is developed purely for **educational purposes, algorithm research, and personal learning**.
+The project is provided "AS IS" without any warranty.
+The original author (**Dang Quoc Huy**) and fork maintainer (**Astear17**) **accept absolutely no legal responsibility** for any risks, damages, or consequences caused by misuse of this tool in violation of Core Bank's Terms of Service or applicable laws. Users are solely responsible for their own actions.
 
-> 🌟 *Phát triển bởi Dang Quoc Huy - Phục vụ thuần tuý cho mục đích nghiên cứu công nghệ.*
+> 🌟 *Originally created by Dang Quoc Huy — Rebuilt by Astear17 for cloud deployment.*

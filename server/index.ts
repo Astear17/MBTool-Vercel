@@ -39,21 +39,17 @@ app.use((req, res, next) => {
 
 // ─── Start ──────────────────────────────────────────────────────────────────
 
-if (!process.env.VERCEL) {
-  app.listen(PORT, async () => {
-    console.log(`\n🏦 CoreBank Panel PRO Server running on http://localhost:${PORT}`);
-    console.log(`📡 API endpoints available at http://localhost:${PORT}/api\n`);
+app.listen(PORT, async () => {
+  console.log(`\n🏦 CoreBank Panel PRO Server running on http://localhost:${PORT}`);
+  console.log(`📡 API endpoints available at http://localhost:${PORT}/api\n`);
 
-    // Pre-download WASM binary & OCR model
-    try {
-      await warmup();
-      console.log("🔐 WASM encryption engine ready");
-      await warmupOCR();
-      console.log("🤖 OCR captcha model ready\n");
-    } catch (err) {
-      console.warn("⚠️  Warmup failed (will retry on first request):", err);
-    }
-  });
-}
-
-export default app;
+  // Pre-download WASM binary & OCR model
+  try {
+    await warmup();
+    console.log("🔐 WASM encryption engine ready");
+    await warmupOCR();
+    console.log("🤖 OCR captcha model ready\n");
+  } catch (err) {
+    console.warn("⚠️  Warmup failed (will retry on first request):", err);
+  }
+});
