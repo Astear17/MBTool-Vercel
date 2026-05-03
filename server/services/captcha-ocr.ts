@@ -3,13 +3,18 @@
  *
  * Uses a purpose-trained ONNX model to recognize Core Bank captcha images.
  * Model auto-downloads from GitHub on first run and is cached locally.
+ * Uses onnxruntime-web (WASM backend) for Vercel compatibility (small bundle size).
  */
 
-import { existsSync, writeFileSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import sharp from "sharp";
-import * as ort from "onnxruntime-node";
+import * as ort from "onnxruntime-web";
+
+// ─── Configure ONNX Runtime for Node.js WASM backend ────────────────────────
+
+ort.env.wasm.numThreads = 1;
 
 // ─── Constants ──────────────────────────────────────────────────────────────
 
@@ -52,7 +57,9 @@ async function resolveModelPath(): Promise<string> {
 async function getSession(): Promise<ort.InferenceSession> {
   if (session) return session;
   const modelPath = await resolveModelPath();
-  session = await ort.InferenceSession.create(modelPath);
+  // Load model as ArrayBuffer for onnxruntime-web compatibility
+  const modelBuffer = readFileSync(modelPath);
+  session = await ort.InferenceSession.create(modelBuffer.buffer);
   return session;
 }
 
