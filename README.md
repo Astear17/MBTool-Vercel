@@ -4,9 +4,8 @@
   <p><strong>Dashboard quản lý tài chính MBBank, ngay trên Render.</strong></p>
   
   <p>
-    <img src="https://img.shields.io/badge/Version-2.0.0--PRO-blue?style=for-the-badge" />
+    <img src="https://img.shields.io/badge/Version-v1.0-blue?style=for-the-badge" />
     <img src="https://img.shields.io/badge/Powered_By-TypeScript-3178c6?style=for-the-badge&logo=typescript" />
-    <img src="https://img.shields.io/badge/UI_UX-Premium-FFD700?style=for-the-badge" />
   </p>
 
   <p>
