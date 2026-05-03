@@ -307,10 +307,11 @@ export class CoreBankService {
     }));
   }
 
-  /** Make an authenticated API request */
+  /** Make an authenticated API request with auto-retry on parse failure */
   private async authenticatedRequest(
     path: string,
-    extraBody: Record<string, unknown> = {}
+    extraBody: Record<string, unknown> = {},
+    retryCount = 0
   ): Promise<any> {
     if (!this.session?.sessionId) {
       throw new Error("Not logged in");
@@ -342,6 +343,12 @@ export class CoreBankService {
     try {
       data = JSON.parse(responseText);
     } catch (e) {
+      // If we get an empty or invalid response, retry once after a short delay
+      if (retryCount < 1) {
+        console.log(`⚠️ Empty response from bank on ${path}, retrying...`);
+        await new Promise(r => setTimeout(r, 1000));
+        return this.authenticatedRequest(path, extraBody, retryCount + 1);
+      }
       throw new Error(`Failed to parse API response: ${responseText.slice(0, 100)}`);
     }
 

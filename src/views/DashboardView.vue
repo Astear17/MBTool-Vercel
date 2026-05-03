@@ -125,57 +125,77 @@ onMounted(fetchBalance);
 <style scoped>
 .dashboard {
   width: 100%;
+  animation: slideUp 0.6s ease;
 }
 
 .page-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 28px;
+  margin-bottom: 32px;
 }
 
 .page-header h1 {
-  font-size: 28px;
-  font-weight: 700;
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
 }
 
 /* ─── Hero Balance ─────────────────────────── */
 
 .balance-hero {
-  padding: 36px 40px;
-  border-radius: 20px;
-  margin-bottom: 32px;
-  background:
-    linear-gradient(135deg, rgba(64, 158, 255, 0.12), rgba(103, 194, 58, 0.08)),
-    rgba(26, 35, 50, 0.8);
-  border: 1px solid rgba(64, 158, 255, 0.2);
+  padding: 48px;
+  border-radius: 24px;
+  margin-bottom: 40px;
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(16, 185, 129, 0.05));
+  border: 1px solid var(--border-color);
+  position: relative;
+  overflow: hidden;
+}
+
+.balance-hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -10%;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, var(--accent-glow), transparent);
+  filter: blur(60px);
+  z-index: 0;
 }
 
 .balance-label {
-  font-size: 14px;
+  font-size: 13px;
+  font-weight: 700;
   color: var(--text-muted);
   text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 8px;
+  letter-spacing: 0.1em;
+  margin-bottom: 12px;
+  position: relative;
+  z-index: 1;
 }
 
 .balance-amount {
   display: flex;
   align-items: baseline;
-  gap: 8px;
-  margin-bottom: 4px;
+  gap: 12px;
+  margin-bottom: 8px;
+  position: relative;
+  z-index: 1;
 }
 
 .currency {
-  font-size: 28px;
+  font-size: 32px;
   font-weight: 600;
   color: var(--text-secondary);
 }
 
 .amount {
-  font-size: 44px;
-  font-weight: 800;
-  background: linear-gradient(135deg, #e8eaf0, #409eff);
+  font-size: 56px;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  background: linear-gradient(135deg, var(--text-primary), var(--accent));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -183,7 +203,10 @@ onMounted(fetchBalance);
 
 .balance-currency {
   color: var(--text-muted);
-  font-size: 13px;
+  font-size: 14px;
+  font-weight: 500;
+  position: relative;
+  z-index: 1;
 }
 
 /* ─── Section Header ───────────────────────── */
@@ -191,21 +214,22 @@ onMounted(fetchBalance);
 .section-header {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 20px;
+  gap: 16px;
+  margin-bottom: 24px;
 }
 
 .section-header h2 {
-  font-size: 18px;
-  font-weight: 600;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
 }
 
 /* ─── Account Cards ────────────────────────── */
 
 .accounts-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
 }
 
 .account-card {
@@ -213,70 +237,75 @@ onMounted(fetchBalance);
 }
 
 .account-card :deep(.el-card__body) {
-  padding: 24px;
+  padding: 32px;
 }
 
 .acct-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
 .acct-icon {
-  font-size: 32px;
+  font-size: 36px;
+  color: var(--accent);
+  opacity: 0.8;
 }
 
 .acct-name {
-  font-weight: 600;
-  font-size: 16px;
-  margin-bottom: 4px;
+  font-weight: 700;
+  font-size: 18px;
+  margin-bottom: 6px;
   color: var(--text-primary);
 }
 
 .acct-number {
-  font-size: 14px;
+  font-size: 15px;
   color: var(--text-muted);
-  font-family: 'Courier New', monospace;
-  margin-bottom: 20px;
+  font-family: 'Inter', monospace;
+  letter-spacing: 0.05em;
+  margin-bottom: 24px;
 }
 
 .acct-balance {
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
-  padding: 12px 0;
+  align-items: center;
+  padding: 16px 0;
   border-top: 1px solid var(--border-color);
-  margin-bottom: 8px;
+  margin-bottom: 12px;
 }
 
 .acct-balance-label {
   font-size: 13px;
+  font-weight: 600;
   color: var(--text-muted);
 }
 
 .acct-balance-value {
-  font-size: 20px;
-  font-weight: 700;
+  font-size: 22px;
+  font-weight: 800;
   color: var(--success);
 }
 
 .acct-action {
   width: 100%;
+  height: 40px;
 }
 
 @media (max-width: 768px) {
   .page-header h1 {
-    font-size: 24px;
+    font-size: 28px;
   }
   
   .balance-hero {
-    padding: 24px;
-    border-radius: 16px;
+    padding: 32px;
+    border-radius: 20px;
   }
   
-  .balance-amount {
-    font-size: 32px;
+  .amount {
+    font-size: 40px;
   }
   
   .accounts-grid {

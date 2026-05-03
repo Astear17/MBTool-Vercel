@@ -131,7 +131,7 @@ const handleLogin = async () => {
   justify-content: center;
   position: relative;
   overflow: hidden;
-  background: var(--bg-primary);
+  background: #020617; /* Deep midnight */
 }
 
 .login-bg {
@@ -143,129 +143,124 @@ const handleLogin = async () => {
 .bg-orb {
   position: absolute;
   border-radius: 50%;
-  filter: blur(100px);
-  opacity: 0.3;
+  filter: blur(120px);
+  opacity: 0.4;
 }
 
 .bg-orb-1 {
-  width: 500px;
-  height: 500px;
-  background: #409eff;
-  top: -150px;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, #2563eb, transparent);
+  top: -200px;
   left: -100px;
-  animation: float 8s ease-in-out infinite;
-}
-
-.bg-orb-2 {
-  width: 400px;
-  height: 400px;
-  background: #67c23a;
-  bottom: -100px;
-  right: -80px;
-  animation: float 10s ease-in-out infinite reverse;
-}
-
-.bg-orb-3 {
-  width: 300px;
-  height: 300px;
-  background: #e6a23c;
-  top: 50%;
-  left: 60%;
   animation: float 12s ease-in-out infinite;
 }
 
+.bg-orb-2 {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, #7c3aed, transparent);
+  bottom: -150px;
+  right: -100px;
+  animation: float 15s ease-in-out infinite reverse;
+}
+
+.bg-orb-3 {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, #10b981, transparent);
+  top: 40%;
+  left: 50%;
+  animation: float 18s ease-in-out infinite;
+}
+
 @keyframes float {
-
-  0%,
-  100% {
-    transform: translate(0, 0) scale(1);
-  }
-
-  33% {
-    transform: translate(30px, -20px) scale(1.05);
-  }
-
-  66% {
-    transform: translate(-20px, 15px) scale(0.95);
-  }
+  0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+  33% { transform: translate(50px, -30px) rotate(5deg) scale(1.1); }
+  66% { transform: translate(-30px, 40px) rotate(-5deg) scale(0.9); }
 }
 
 .login-container {
-  width: 420px;
+  width: 440px;
   max-width: 90%;
-  padding: 40px;
-  border-radius: 20px;
+  padding: 48px;
+  border-radius: 24px;
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(40px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
   position: relative;
-  z-index: 1;
+  z-index: 10;
 }
 
 .login-header {
   text-align: center;
-  margin-bottom: 36px;
+  margin-bottom: 40px;
 }
 
 .logo {
-  font-size: 56px;
+  font-size: 64px;
   color: var(--accent);
-  margin-bottom: 12px;
+  margin-bottom: 16px;
   display: flex;
   justify-content: center;
+  filter: drop-shadow(0 0 20px var(--accent-glow));
 }
 
 .login-header h1 {
-  font-size: 28px;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin-bottom: 8px;
+  font-size: 32px;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 12px;
+  letter-spacing: -0.04em;
 }
 
 .subtitle {
-  color: var(--text-muted);
-  font-size: 14px;
+  color: #94a3b8;
+  font-size: 15px;
+  font-weight: 500;
 }
 
 .login-form :deep(.el-form-item__label) {
-  color: var(--text-secondary);
-  font-weight: 500;
+  color: #cbd5e1;
+  font-weight: 600;
   font-size: 13px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .login-btn {
   width: 100%;
-  height: 48px;
-  font-size: 15px;
-  margin-top: 8px;
+  height: 52px;
+  font-size: 16px;
+  margin-top: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 10px;
 }
 
 .login-progress {
-  margin-top: 16px;
+  margin-top: 24px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 12px;
 }
 
 .progress-text {
-  font-size: 13px;
-  color: var(--text-secondary);
+  font-size: 14px;
+  color: #94a3b8;
   text-align: center;
+  font-weight: 500;
 }
 
 .login-footer {
   text-align: center;
-  margin-top: 24px;
-  padding-top: 20px;
-  border-top: 1px solid var(--border-color);
-}
-
-.login-footer .el-button {
-  color: var(--text-muted) !important;
-}
-
-.login-footer .el-button:hover {
-  color: var(--accent) !important;
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 13px;
+  color: #64748b;
 }
 </style>
