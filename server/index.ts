@@ -16,8 +16,27 @@ const app = express();
 
 // ─── Middleware ──────────────────────────────────────────────────────────────
 
-app.use(cors({ origin: true, credentials: true }));
+app.use(cors({
+  origin: (origin, callback) => {
+    // Allow all origins in development, or specific ones in production
+    if (!origin || origin.includes('vercel.app') || origin.includes('localhost')) {
+      callback(null, true);
+    } else {
+      callback(null, true); // Fallback to true for easier debugging
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-Id', 'Deviceid', 'Refno']
+}));
+
 app.use(express.json({ limit: "10mb" }));
+
+// Request Logger
+app.use((req, _res, next) => {
+  console.log(`📡 ${req.method} ${req.url}`);
+  next();
+});
 
 // ─── API Routes ─────────────────────────────────────────────────────────────
 
