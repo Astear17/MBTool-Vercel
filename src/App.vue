@@ -11,7 +11,16 @@
 
     <!-- Main layout with sidebar -->
     <template v-else>
-      <aside class="sidebar glass" :class="{ 'sidebar-open': mobileMenuOpen }">
+      <!-- Splash screen for Render cold start -->
+      <div v-if="!serverWakeup" class="wakeup-splash">
+        <div class="wakeup-content">
+          <el-icon class="wakeup-icon is-loading" :size="60"><Loading /></el-icon>
+          <h2>{{ $t('nav.wakingUp') || 'Đang kết nối server...' }}</h2>
+          <p>{{ $t('nav.renderColdStart') || 'Server đang khởi động (có thể mất 30-60 giây)...' }}</p>
+        </div>
+      </div>
+
+      <aside v-else class="sidebar glass" :class="{ 'sidebar-open': mobileMenuOpen }">
         <div class="sidebar-brand">
           <div class="brand-icon">
             <el-icon><Monitor /></el-icon>
@@ -114,6 +123,7 @@ import {
   Sunny,
   Moon,
   Setting,
+  Loading,
 } from "@element-plus/icons-vue";
 import api from "./api";
 
@@ -122,6 +132,7 @@ const router = useRouter();
 const { locale } = useI18n();
 const sessionActive = ref(false);
 const mobileMenuOpen = ref(false);
+const serverWakeup = ref(false);
 
 const isLoginPage = computed(() => route.path === "/login" || route.path === "/");
 const currentRoute = computed(() => route.path);
@@ -140,21 +151,26 @@ const toggleLocale = () => {
   localStorage.setItem('locale', locale.value);
 };
 
-const checkSession = async () => {
+const checkSession = async (retryCount = 0) => {
   try {
     const { data } = await api.get("/status");
+    serverWakeup.value = true;
     sessionActive.value = data.loggedIn;
     if (data.loggedIn) {
       localStorage.setItem('isAuthenticated', 'true');
     } else {
-      // Backend says not logged in — only redirect if we thought we were authenticated
-      // This handles cold-start / server restart gracefully
       localStorage.removeItem('isAuthenticated');
       if (route.path !== '/login' && route.path !== '/') router.push('/login');
     }
-  } catch {
-    // Network error or server unavailable — don't immediately kick user out
-    // Keep existing auth state from localStorage to avoid flicker
+  } catch (err) {
+    // If it's a network error/cold start, retry a few times
+    if (retryCount < 5) {
+      setTimeout(() => checkSession(retryCount + 1), 3000);
+      return;
+    }
+    
+    // After 5 retries, still fail but stop the splash if we're on login page
+    serverWakeup.value = isLoginPage.value;
     sessionActive.value = localStorage.getItem('isAuthenticated') === 'true';
   }
 };
@@ -376,5 +392,40 @@ onMounted(() => {
     padding: 80px 16px 24px;
     width: 100vw;
   }
+}
+
+/* ─── Wakeup Splash ────────────────────────────── */
+
+.wakeup-splash {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: var(--bg-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.wakeup-content {
+  padding: 40px;
+  max-width: 400px;
+}
+
+.wakeup-icon {
+  margin-bottom: 24px;
+  color: var(--accent);
+}
+
+.wakeup-splash h2 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.wakeup-splash p {
+  color: var(--text-muted);
+  font-size: 15px;
+  line-height: 1.6;
 }
 </style>
